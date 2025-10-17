@@ -4,22 +4,25 @@ import { useCapability, usePlugin } from '@embedpdf/core/svelte';
 export const useZoomCapability = () => useCapability<ZoomPlugin>(ZoomPlugin.id);
 export const useZoomPlugin = () => usePlugin<ZoomPlugin>(ZoomPlugin.id);
 
-export const useZoom = () => {
-  const { provides } = $derived(useZoomCapability());
-  let zoomState = $state<ZoomState>(initialState);
+export function useZoom() {
+  const capability = useZoomCapability();
+  let state = $state<ZoomState>(initialState);
 
   $effect(() => {
-    return provides?.onStateChange((action) => {
-      zoomState = action;
+    const provides = capability.provides;
+    if (!provides) return;
+    
+    return provides.onStateChange((newState) => {
+      state = newState;
     });
   });
 
   return {
     get state() {
-      return zoomState;
+      return state;
     },
     get provides() {
-      return provides;
+      return capability.provides;
     },
   };
-};
+}

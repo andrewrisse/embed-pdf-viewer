@@ -1,10 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "../..",
-    "paths": {
-      "@embedpdf/plugin-interaction-manager": ["src/lib/index.ts"]
-    }
+    "baseUrl": "../.."
   },
   "include": ["./**/*.ts", "./**/*.svelte"]
 }

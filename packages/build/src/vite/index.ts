@@ -57,6 +57,7 @@ export interface ConfigOptions {
   esbuildOptions?: UserConfig['esbuild'];
   dtsExclude?: string[];
   dtsOptions?: Record<string, any>;
+  globals?: Record<string, string>;
 
 }
 
@@ -70,6 +71,7 @@ export function createConfig(opts: ConfigOptions): UserConfig {
     esbuildOptions = {},
     dtsExclude = [],
     dtsOptions = {},
+    globals = {}
   } = opts;
 
   const pkgRoot = process.cwd();
@@ -119,7 +121,7 @@ export function createConfig(opts: ConfigOptions): UserConfig {
       minify: 'terser',
       rollupOptions: {
         external: [...external, ...sharedExternal],
-        output: { dir: path.resolve(pkgRoot, 'dist') },
+        output: { dir: path.resolve(pkgRoot, 'dist'), ...globals },
       },
     },
   };
@@ -177,7 +179,13 @@ export function defineLibrary() {
           entryPath: 'svelte/index.ts',
           outputPrefix: 'svelte',
           external: ['svelte', 'svelte/internal'],
-          additionalPlugins: [svelte()],
+          additionalPlugins: [svelte({
+            compilerOptions: {
+              // Generate code that works outside of Svelte apps
+              customElement: false
+            }
+          })],
+          globals: {svelte: 'Svelte'}
         });
 
       default: // base
