@@ -109,7 +109,7 @@
         rotation={props.rotation}
         scale={props.scale}
       >
-        <RenderLayer pageIndex={props.pageIndex} scale={props.scale} />
+        <RenderLayer pageIndex={props.pageIndex} scale={props.scale}   class="pointer-events-none"/>
         <SelectionLayer pageIndex={props.pageIndex} scale={props.scale} />
         <!-- Annotation Layer on top -->
         <AnnotationLayer

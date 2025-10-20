@@ -1,7 +1,7 @@
 <!-- Free-text.svelte -->
 <script lang="ts">
-    import type {
-        PdfFreeTextAnnoObject,
+    import  {
+        type PdfFreeTextAnnoObject,
         PdfVerticalAlignment,
         standardFontCss,
         textAlignmentToCss
@@ -27,7 +27,7 @@
         annotation,
         pageIndex,
         scale,
-        onClick
+        onClick,
     }: FreeTextProps = $props();
 
     // ---------- capabilities ----------

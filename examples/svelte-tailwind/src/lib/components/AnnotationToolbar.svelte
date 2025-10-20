@@ -32,6 +32,7 @@
     { id: 'ink', name: 'Pen' },
     { id: 'square', name: 'Square' },
     { id: 'highlight', name: 'Highlight' },
+    { id: 'freeText', name: 'Freetext' },
   ];
 </script>
 
