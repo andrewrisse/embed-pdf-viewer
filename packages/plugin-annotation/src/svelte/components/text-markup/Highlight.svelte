@@ -39,5 +39,5 @@
         style:cursor={onClick ? 'pointer' : 'default'}
         style:z-index={onClick ? 1 : undefined}
         {...style ? Object.fromEntries(Object.entries(style).map(([k, v]) => [`style:${k}`, v])) : {}}
-    />
+    ></div>
 {/each}

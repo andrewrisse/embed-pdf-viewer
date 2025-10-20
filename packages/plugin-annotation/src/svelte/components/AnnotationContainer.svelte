@@ -1,8 +1,7 @@
 <script lang="ts" generics="T extends PdfAnnotationObject">
-    import { type PdfAnnotationObject } from '@embedpdf/models';
     import { type TrackedAnnotation } from '@embedpdf/plugin-annotation';
     import { type Snippet } from "svelte";
-    import { useAnnotationCapability } from "../hooks/use-annotation.svelte";
+    import { useAnnotationCapability } from "../hooks";
     import type {VertexConfig} from "../../shared/types";
     import type {
         CustomAnnotationRenderer,
@@ -196,7 +195,7 @@
                     <div
                             {...hProps}
                             style:background-color={HANDLE_COLOR}
-                    />
+                    ></div>
                 {/if}
             {/each}
         {/if}
@@ -210,7 +209,7 @@
                     <div
                             {...vProps}
                             style:background-color={VERTEX_COLOR}
-                    />
+                    ></div>
                 {/if}
             {/each}
         {/if}

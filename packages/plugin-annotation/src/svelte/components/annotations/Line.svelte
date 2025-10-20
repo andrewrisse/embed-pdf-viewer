@@ -41,7 +41,7 @@
     const y2 = $derived(linePoints.end.y - rect.origin.y);
 
     // Arrow-head / butt endings via shared factory
-    const endings = $derived(() => {
+    const endings = $derived.by(() => {
         const angle = Math.atan2(y2 - y1, x2 - x1);
         return {
             start: patching.createEnding(lineEndings?.start, strokeWidth, angle + Math.PI, x1, y1),
@@ -74,8 +74,8 @@
             x2={x2}
             y2={y2}
             opacity={opacity}
-            on:pointerdown={onClick}
-            on:touchstart={onClick}
+            onpointerdown={onClick}
+            ontouchstart={onClick}
             style:cursor={isSelected ? 'move' : 'pointer'}
             style:pointer-events={isSelected ? 'none' : 'visibleStroke'}
             style:stroke={strokeColor}
@@ -89,8 +89,8 @@
         <path
                 d={endings.start.d}
                 transform={endings.start.transform}
-                on:pointerdown={onClick}
-                on:touchstart={onClick}
+                onpointerdown={onClick}
+                ontouchstart={onClick}
                 stroke={strokeColor}
                 style:cursor={isSelected ? 'move' : 'pointer'}
                 style:stroke-width={strokeWidth}
@@ -106,8 +106,8 @@
                 d={endings.end.d}
                 transform={endings.end.transform}
                 stroke={strokeColor}
-                on:pointerdown={onClick}
-                on:touchstart={onClick}
+                onpointerdown={onClick}
+                ontouchstart={onClick}
                 style:cursor={isSelected ? 'move' : 'pointer'}
                 style:stroke-width={strokeWidth}
                 style:stroke-linecap="butt"

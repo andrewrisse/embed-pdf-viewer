@@ -36,7 +36,7 @@
     );
 
     // Build path data: "M x0 y0 L x1 y1 ..."
-    const pathData = $derived(() => {
+    const pathData = $derived.by(() => {
         if (!localPts.length) return '';
         const [first, ...rest] = localPts;
         return (
@@ -46,7 +46,7 @@
     });
 
     // Compute endings (angles from first→second, last-1→last)
-    const endings = $derived(() => {
+    const endings = $derived.by(() => {
         if (localPts.length < 2) return { start: null as any, end: null as any };
         const toAngle = (a: Position, b: Position) => Math.atan2(b.y - a.y, b.x - a.x);
 
@@ -84,8 +84,8 @@
 >
     <path
             d={pathData}
-            on:pointerdown={onClick}
-            on:touchstart={onClick}
+            onpointerdown={onClick}
+            ontouchstart={onClick}
             opacity={opacity}
             style:fill="none"
             style:stroke={strokeColor ?? color}
@@ -102,8 +102,8 @@
                 transform={endings.start.transform}
                 stroke={strokeColor}
                 fill={endings.start.filled ? color : 'none'}
-                on:pointerdown={onClick}
-                on:touchstart={onClick}
+                onpointerdown={onClick}
+                ontouchstart={onClick}
                 style:cursor={isSelected ? 'move' : 'pointer'}
                 style:stroke-width={strokeWidth}
                 style:pointer-events={isSelected ? 'none' : (endings.start.filled ? 'visible' : 'visibleStroke')}
@@ -117,8 +117,8 @@
                 transform={endings.end.transform}
                 stroke={strokeColor}
                 fill={endings.end.filled ? color : 'none'}
-                on:pointerdown={onClick}
-                on:touchstart={onClick}
+                onpointerdown={onClick}
+                ontouchstart={onClick}
                 style:cursor={isSelected ? 'move' : 'pointer'}
                 style:stroke-width={strokeWidth}
                 style:pointer-events={isSelected ? 'none' : (endings.end.filled ? 'visible' : 'visibleStroke')}

@@ -81,7 +81,7 @@
 </script>
 
 <!-- Hidden DOM elements required by services -->
-<input bind:this={fileInputRef} type="file" style:display="none" />
+<input bind:this={fileInputRef} type="file" style:display="none">
 <canvas bind:this={canvasRef} style:display="none"></canvas>
 
 <!-- Render any active previews from any tool -->

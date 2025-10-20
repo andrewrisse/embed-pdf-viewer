@@ -1,6 +1,6 @@
 <!-- Annotations.svelte -->
 <script lang="ts">
-    import { blendModeToCss, PdfAnnotationObject, PdfBlendMode } from '@embedpdf/models';
+    import { blendModeToCss, type PdfAnnotationObject, PdfBlendMode } from '@embedpdf/models';
     import {
         getAnnotationsByPageIndex,
         getSelectedAnnotationByPageIndex,

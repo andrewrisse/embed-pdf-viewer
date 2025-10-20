@@ -5,24 +5,27 @@
     type IPlugin,
     type PluginBatchRegistration,
   } from '@embedpdf/core';
-  import { EmbedPDF, useRegistry } from '@embedpdf/core/svelte';
+  import { EmbedPDF } from '@embedpdf/core/svelte';
+  import {
+    AnnotationPlugin,
+    AnnotationPluginPackage,
+    type AnnotationTool,
+  } from '@embedpdf/plugin-annotation';
+  import { AnnotationLayer } from '@embedpdf/plugin-annotation/svelte';
   import { LoaderPluginPackage } from '@embedpdf/plugin-loader';
   import { ViewportPluginPackage } from '@embedpdf/plugin-viewport';
+  import { SelectionLayer, SelectionPluginPackage } from '@embedpdf/plugin-selection/svelte';
   import { Viewport } from '@embedpdf/plugin-viewport/svelte';
   import { RenderPluginPackage } from '@embedpdf/plugin-render';
   import { Scroller, ScrollPluginPackage } from '@embedpdf/plugin-scroll/svelte';
   import { useLoaderCapability } from '@embedpdf/plugin-loader/svelte';
-  import { RenderLayer } from '@embedpdf/plugin-render/svelte';
-  import { MarqueeZoom, ZoomMode } from '@embedpdf/plugin-zoom/svelte';
-  import { ZoomPluginPackage } from '@embedpdf/plugin-zoom';
   import {
     InteractionManagerPluginPackage,
     PagePointerProvider,
   } from '@embedpdf/plugin-interaction-manager/svelte';
-  import ZoomToolbar from '$lib/components/ZoomToolbar.svelte';
-  import type { Rotation } from '@embedpdf/models';
-  import { TilingPluginPackage } from '@embedpdf/plugin-tiling';
-  import { TilingLayer } from '@embedpdf/plugin-tiling/svelte';
+  import { PdfAnnotationSubtype, type PdfStampAnnoObject, type Rotation } from '@embedpdf/models';
+  import AnnotationToolbar from '$lib/components/AnnotationToolbar.svelte';
+  import { RenderLayer } from '@embedpdf/plugin-render/svelte';
 
   type RenderPageProps = {
     width: number;
@@ -55,8 +58,13 @@
       createPluginRegistration(ViewportPluginPackage),
       createPluginRegistration(ScrollPluginPackage),
       createPluginRegistration(RenderPluginPackage),
-      createPluginRegistration(TilingPluginPackage),
-      createPluginRegistration(ZoomPluginPackage),
+      // Dependencies for Annotation Plugin
+      createPluginRegistration(InteractionManagerPluginPackage),
+      createPluginRegistration(SelectionPluginPackage),
+      // The Annotation Plugin
+      createPluginRegistration(AnnotationPluginPackage, {
+        annotationAuthor: 'EmbedPDF User',
+      }),
     ];
     if (withMarqueeZoom) {
       basePlugins.splice(4, 0, createPluginRegistration(InteractionManagerPluginPackage));
@@ -91,30 +99,27 @@
   }
 </script>
 
-{#snippet RenderLayers({ pageIndex, scale }: RenderPageProps)}
-  <RenderLayer {pageIndex} {scale} />
-  <TilingLayer {pageIndex} {scale} />
-  {#if withMarqueeZoom}
-    <MarqueeZoom {pageIndex} {scale} />
-  {/if}
-{/snippet}
-
 {#snippet RenderPageSnippet(props: RenderPageProps)}
   <div style:width={`${props.width}`} style:height={`${props.height}`} style:position="relative">
     {#if activeFileLoaded}
-      {#if withMarqueeZoom}
-        <PagePointerProvider
+      <PagePointerProvider
+        pageIndex={props.pageIndex}
+        pageWidth={props.width}
+        pageHeight={props.height}
+        rotation={props.rotation}
+        scale={props.scale}
+      >
+        <RenderLayer pageIndex={props.pageIndex} scale={props.scale} />
+        <SelectionLayer pageIndex={props.pageIndex} scale={props.scale} />
+        <!-- Annotation Layer on top -->
+        <AnnotationLayer
           pageIndex={props.pageIndex}
+          scale={props.scale}
           pageWidth={props.width}
           pageHeight={props.height}
           rotation={props.rotation}
-          scale={props.scale}
-        >
-          {@render RenderLayers(props)}
-        </PagePointerProvider>
-      {:else}
-        {@render RenderLayers(props)}
-      {/if}
+        />
+      </PagePointerProvider>
     {/if}
   </div>
 {/snippet}
@@ -123,11 +128,46 @@
   <div>loading...</div>
 {:else}
   <div id="view-page" class="flex flex-1 flex-col overflow-hidden">
-    <EmbedPDF {engine} logger={undefined} {plugins}>
+    <EmbedPDF
+      {engine}
+      {plugins}
+      onInitialized={async (registry) => {
+        const annotation = registry.getPlugin<AnnotationPlugin>('annotation')?.provides();
+        annotation?.addTool<AnnotationTool<PdfStampAnnoObject>>({
+          id: 'stampCheckmark',
+          name: 'Checkmark',
+          interaction: {
+            exclusive: false,
+            cursor: 'crosshair',
+          },
+          matchScore: () => 0,
+          defaults: {
+            type: PdfAnnotationSubtype.STAMP,
+            imageSrc: '/circle-checkmark.svg',
+            imageSize: { width: 30, height: 30 },
+          },
+        });
+
+        annotation?.addTool<AnnotationTool<PdfStampAnnoObject>>({
+          id: 'stampCross',
+          name: 'Cross',
+          interaction: {
+            exclusive: false,
+            cursor: 'crosshair',
+          },
+          matchScore: () => 0,
+          defaults: {
+            type: PdfAnnotationSubtype.STAMP,
+            imageSrc: '/x.svg',
+            imageSize: { width: 30, height: 30 },
+          },
+        });
+      }}
+    >
       <div class="flex h-full flex-col">
-        <ZoomToolbar {withMarqueeZoom} />
+        <AnnotationToolbar />
         <Viewport class="h-full w-full flex-1 overflow-auto bg-transparent select-none">
-          <input type="file" accept="application/pdf" onchange={handleDocChange} >
+          <input type="file" accept="application/pdf" onchange={handleDocChange} />
           <Scroller {RenderPageSnippet} />
         </Viewport>
       </div>

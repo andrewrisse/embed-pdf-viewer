@@ -45,7 +45,7 @@
     );
 
     // Build path data; omit 'Z' when previewing
-    const pathData = $derived(() => {
+    const pathData = $derived.by(() => {
         if (!localPts.length) return '';
         const [first, ...rest] = localPts;
         const isPreview = !!currentVertex;
@@ -76,8 +76,8 @@
 >
     <path
             d={pathData}
-            on:pointerdown={onClick}
-            on:touchstart={onClick}
+            onpointerdown={onClick}
+            ontouchstart={onClick}
             opacity={opacity}
             style:fill={currentVertex ? 'none' : color}
             style:stroke={strokeColor ?? color}

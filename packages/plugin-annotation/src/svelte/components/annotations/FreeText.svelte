@@ -104,15 +104,15 @@
         style:z-index={2}
         style:cursor={(isSelected && !isEditing) ? 'move' : 'default'}
         style:pointer-events={(isSelected && !isEditing) ? 'none' : 'auto'}
-        on:pointerdown={onClick}
-        on:touchstart={onClick}
+        onpointerdown={onClick}
+        ontouchstart={onClick}
 >
     <!-- Editable span -->
     <span
             bind:this={editorRef}
-            tabindex="0"
+            tabindex="-1"
             contenteditable={isEditing}
-            on:blur={handleBlur}
+            onblur={handleBlur}
             style:display="flex"
             style:flex-direction="column"
             style:justify-content={justify}

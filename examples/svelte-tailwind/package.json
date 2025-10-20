@@ -15,10 +15,12 @@
 	"devDependencies": {
         "@embedpdf/core": "workspace:*",
         "@embedpdf/plugin-loader": "workspace:*",
+        "@embedpdf/plugin-annotation": "workspace:*",
         "@embedpdf/plugin-interaction-manager": "workspace:*",
         "@embedpdf/plugin-viewport": "workspace:*",
         "@embedpdf/plugin-render": "workspace:*",
         "@embedpdf/plugin-scroll": "workspace:*",
+        "@embedpdf/plugin-selection": "workspace:*",
         "@embedpdf/plugin-tiling": "workspace:*",
         "@embedpdf/plugin-zoom": "workspace:*",
         "@embedpdf/models": "workspace:*",

@@ -3,7 +3,7 @@
  * These types are separate from React types to avoid JSX dependencies
  */
 
-import type { PdfAnnotationObject, Position, Rect } from '@embedpdf/models';
+import type { PdfAnnotationObject, Rect } from '@embedpdf/models';
 import type { TrackedAnnotation } from '@embedpdf/plugin-annotation';
 import type { Snippet } from 'svelte';
 

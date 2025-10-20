@@ -30,7 +30,7 @@
     }: SquareProps = $props();
 
     // Geometry helpers — compute inner rect so visual fill matches preview
-    const geom = $derived(() => {
+    const {width, height, x, y} = $derived.by(() => {
         const outerW = rect.size.width;
         const outerH = rect.size.height;
         const innerW = Math.max(outerW - strokeWidth, 0);
@@ -43,8 +43,8 @@
         };
     });
 
-    const svgWidth = $derived((geom.width + strokeWidth) * scale);
-    const svgHeight = $derived((geom.height + strokeWidth) * scale);
+    const svgWidth = $derived((width + strokeWidth) * scale);
+    const svgHeight = $derived((height + strokeWidth) * scale);
 
     const dash = $derived(
         strokeStyle === PdfAnnotationBorderStyle.DASHED ? strokeDashArray?.join(',') : undefined
@@ -57,17 +57,17 @@
         style:height={`${svgHeight}px`}
         width={svgWidth}
         height={svgHeight}
-        viewBox={`0 0 ${geom.width + strokeWidth} ${geom.height + strokeWidth}`}
+        viewBox={`0 0 ${width + strokeWidth} ${height + strokeWidth}`}
 >
     <rect
-            x={geom.x}
-            y={geom.y}
-            width={geom.width}
-            height={geom.height}
+            x={x}
+            y={y}
+            width={width}
+            height={height}
             fill={color}
             opacity={opacity}
-            on:pointerdown={onClick}
-            on:touchstart={onClick}
+            onpointerdown={onClick}
+            ontouchstart={onClick}
             style:cursor={isSelected ? 'move' : 'pointer'}
             style:pointer-events={isSelected ? 'none' : (color === 'transparent' ? 'visibleStroke' : 'visible')}
             style:stroke={strokeColor ?? color}

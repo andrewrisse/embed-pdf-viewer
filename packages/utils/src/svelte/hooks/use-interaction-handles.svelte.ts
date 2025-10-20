@@ -6,7 +6,6 @@ import {
   type VertexUI,
 } from '../../shared/plugin-interaction-primitives';
 
-
 export type HandleElementProps = {
   key: string | number;
   style: Record<string, any>;
@@ -35,7 +34,7 @@ export function useInteractionHandles(opts: {
     vertexAttrs,
   } = opts;
 
-  const { dragProps, createResizeProps, createVertexProps } = useDragResize(controller);
+  const { dragProps, createResizeProps, createVertexProps } = $derived(useDragResize(controller));
 
   // Resize handles: computed from controller config
   const resize = $derived.by((): HandleElementProps[] => {
@@ -62,5 +61,15 @@ export function useInteractionHandles(opts: {
     }));
   });
 
-  return { dragProps, resize, vertices };
+  return {
+    get dragProps() {
+      return dragProps;
+    },
+    get resize() {
+      return resize;
+    },
+    get vertices() {
+      return vertices;
+    },
+  };
 }

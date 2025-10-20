@@ -32,29 +32,28 @@ export function useDragResize(options: UseDragResizeOptions) {
     }
   });
 
-
-  const handleDragStart = (e: PointerEvent) => $derived.by(() => {
+  const handleDragStart = (e: PointerEvent) => {
     if (!enabled) return;
     e.preventDefault();
     e.stopPropagation();
     controller?.startDrag(e.clientX, e.clientY);
     (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-  });
+  };
 
-  const handleMove = (e: PointerEvent) => $derived.by(() =>{
+  const handleMove = (e: PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
     controller?.move(e.clientX, e.clientY);
-  });
+  };
 
-  const handleEnd = (e: PointerEvent) => $derived.by(() =>{
+  const handleEnd = (e: PointerEvent) => {
     e.preventDefault();
     e.stopPropagation();
     controller?.end();
     (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
-  });
+  };
 
-  const createResizeHandler = $derived.by(() =>(handle: ResizeHandle): ResizeHandleEventProps => ({
+  const createResizeHandler = (handle: ResizeHandle): ResizeHandleEventProps => ({
     onpointerdown: (e: PointerEvent) => {
       if (!enabled) return;
       e.preventDefault();
@@ -65,9 +64,9 @@ export function useDragResize(options: UseDragResizeOptions) {
     onpointermove: handleMove,
     onpointerup: handleEnd,
     onpointercancel: handleEnd,
-  }));
+  });
 
-  const createVertexHandler = $derived.by(() =>(vertexIndex: number): ResizeHandleEventProps => ({
+  const createVertexHandler = (vertexIndex: number): ResizeHandleEventProps => ({
     onpointerdown: (e: PointerEvent) => {
       if (!enabled) return;
       e.preventDefault();
@@ -78,7 +77,7 @@ export function useDragResize(options: UseDragResizeOptions) {
     onpointermove: handleMove,
     onpointerup: handleEnd,
     onpointercancel: handleEnd,
-  }));
+  });
 
   const dragProps = $derived(
     enabled

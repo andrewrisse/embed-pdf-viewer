@@ -24,7 +24,7 @@
     }: InkProps = $props();
 
     // derived SVG path data
-    const paths = $derived(() =>
+    const paths = $derived.by(() =>
         inkList.map(({ points }) => {
             let d = '';
             for (let i = 0; i < points.length; i++) {
@@ -54,8 +54,8 @@
                 d={d}
                 fill="none"
                 opacity={opacity}
-                on:pointerdown={onClick}
-                on:touchstart={onClick}
+                onpointerdown={onClick}
+                ontouchstart={onClick}
                 style:cursor={isSelected ? 'move' : 'pointer'}
                 style:pointer-events={isSelected ? 'none' : 'visibleStroke'}
                 style:stroke={color}

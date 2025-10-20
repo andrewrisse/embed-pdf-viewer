@@ -52,6 +52,6 @@
             style:opacity={opacity}
             style:transform="translateY(-50%)"
             style:pointer-events="none"
-        />
+        ></div>
     </div>
 {/each}

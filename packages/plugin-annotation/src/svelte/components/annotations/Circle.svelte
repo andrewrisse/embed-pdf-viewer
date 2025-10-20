@@ -80,8 +80,8 @@
     {ry}
     fill={color}
     {opacity}
-    on:pointerdown={(e) => onClick?.(e)}
-    on:touchstart={(e) => onClick?.(e)}
+    onpointerdown={(e) => onClick?.(e)}
+    ontouchstart={(e) => onClick?.(e)}
     style:cursor={isSelected ? 'move' : 'pointer'}
     pointer-events={peValue}
     stroke={strokeColor ?? color}

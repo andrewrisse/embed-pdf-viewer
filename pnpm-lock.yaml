@@ -321,6 +321,9 @@ importers:
       '@embedpdf/pdfium':
         specifier: workspace:*
         version: link:../../packages/pdfium
+      '@embedpdf/plugin-annotation':
+        specifier: workspace:*
+        version: link:../../packages/plugin-annotation
       '@embedpdf/plugin-interaction-manager':
         specifier: workspace:*
         version: link:../../packages/plugin-interaction-manager
@@ -333,6 +336,9 @@ importers:
       '@embedpdf/plugin-scroll':
         specifier: workspace:*
         version: link:../../packages/plugin-scroll
+      '@embedpdf/plugin-selection':
+        specifier: workspace:*
+        version: link:../../packages/plugin-selection
       '@embedpdf/plugin-tiling':
         specifier: workspace:*
         version: link:../../packages/plugin-tiling

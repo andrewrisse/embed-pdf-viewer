@@ -69,7 +69,7 @@ const handleInitialized = async (registry: PluginRegistry) => {
     matchScore: () => 0,
     defaults: {
       type: PdfAnnotationSubtype.STAMP,
-      imageSrc: '/circle-cross.png',
+      imageSrc: '/circle-checkmark.png',
       imageSize: { width: 30, height: 30 },
     },
   });

@@ -51,6 +51,6 @@
             style:background={color}
             style:opacity={opacity}
             style:pointer-events="none"
-        />
+        ></div>
     </div>
 {/each}

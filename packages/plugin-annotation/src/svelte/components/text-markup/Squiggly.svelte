@@ -62,6 +62,6 @@
             style:background-size="{period}px {amplitude * 2}px"
             style:opacity={opacity}
             style:pointer-events="none"
-        />
+        ></div>
     </div>
 {/each}

@@ -2,7 +2,7 @@
   import Annotations from './Annotations.svelte';
   import TextMarkup from './TextMarkup.svelte';
   import AnnotationPaintLayer from './AnnotationPaintLayer.svelte';
-  import { PdfAnnotationObject } from '@embedpdf/models';
+  import { type PdfAnnotationObject } from '@embedpdf/models';
   import type { HTMLAttributes } from 'svelte/elements';
   import type {
     CustomAnnotationRenderer,

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { PdfStampAnnoObject } from '@embedpdf/models';
   import type { TrackedAnnotation } from '@embedpdf/plugin-annotation';
-  import RenderAnnotation from '../render-annotation.svelte';
+  import RenderAnnotation from '../RenderAnnotation.svelte';
 
   interface StampProps {
     isSelected: boolean;
@@ -12,18 +12,20 @@
   }
 
   let { isSelected, annotation, pageIndex, scale, onClick }: StampProps = $props();
+
+  let annotationProp = $derived({...annotation.object, id: annotation.object.id});
 </script>
 
 <div
   style="position: absolute; width: 100%; height: 100%; z-index: 2;"
   style:pointer-events={isSelected ? 'none' : 'auto'}
   style:cursor="pointer"
-  on:pointerdown={onClick}
-  on:touchstart={onClick}
+  onpointerdown={onClick}
+  ontouchstart={onClick}
 >
   <RenderAnnotation
     {pageIndex}
-    annotation={{ ...annotation.object, id: annotation.object.id }}
+    annotation={annotationProp}
     scaleFactor={scale}
   />
 </div>
