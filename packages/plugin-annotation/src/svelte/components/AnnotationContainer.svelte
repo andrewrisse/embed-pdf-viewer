@@ -9,10 +9,10 @@
         ResizeHandleUI,
         SelectionMenuProps,
         VertexHandleUI
-    } from "../../shared/components/types";
+    } from "../types";
     import {useInteractionHandles, doublePress, CounterRotate} from "@embedpdf/utils/svelte";
 
-    interface AnnotationContainerProps<T extends PdfAnnotationObject> {
+    interface AnnotationContainerProps {
         scale: number;
         pageIndex: number;
         rotation: number;
@@ -25,6 +25,7 @@
         isResizable: boolean;
         lockAspectRatio?: boolean;
         class?: string;
+        style?: Record<string, string | number | undefined>;
         vertexConfig?: VertexConfig<T>;
         selectionMenu?: Snippet<[SelectionMenuProps]>;
         outlineOffset?: number;
@@ -61,7 +62,7 @@
         selectionOutlineColor = '#007ACC',
         customAnnotationRenderer,
         ...restProps
-    }: AnnotationContainerProps<T> = $props();
+    }: AnnotationContainerProps = $props();
 
     let preview = $derived<T>(trackedAnnotation.object);
     let { provides: annotationProvides } = $derived(useAnnotationCapability());
@@ -169,20 +170,19 @@
             class={propsClass}
             {...restProps}
     >
-        {@const customRender = customAnnotationRenderer?.({
-            annotation: currentObject,
-            children,
-            isSelected,
-            scale,
-            rotation,
-            pageWidth,
-            pageHeight,
-            pageIndex,
-            onSelect,
-        })}
 
-        {#if customRender !== null && customRender !== undefined}
-            {@render customRender}
+        {#if customAnnotationRenderer}
+            {@render customAnnotationRenderer?.({
+                annotation: currentObject,
+                children,
+                isSelected,
+                scale,
+                rotation,
+                pageWidth,
+                pageHeight,
+                pageIndex,
+                onSelect,
+            })}
         {:else}
             {@render children(currentObject)}
         {/if}
