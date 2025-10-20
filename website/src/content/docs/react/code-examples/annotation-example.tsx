@@ -173,7 +173,7 @@ export const PDFViewer = () => {
             matchScore: () => 0,
             defaults: {
               type: PdfAnnotationSubtype.STAMP,
-              imageSrc: '/circle-checkmark.png',
+              imageSrc: '/circle-cross.png',
               imageSize: { width: 30, height: 30 },
             },
           })

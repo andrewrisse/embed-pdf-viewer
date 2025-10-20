@@ -1,6 +1,5 @@
 <script lang="ts">
-
-    import {useSelectionCapability} from "../hooks/use-selection";
+    import {useSelectionCapability} from "../hooks";
 
     let { provides: sel} = $derived(useSelectionCapability())
 
